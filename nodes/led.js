@@ -15,6 +15,11 @@ module.exports = function(RED) {
         } : null;
     }
 
+    function rgb2hex(r, g, b) {
+        const rgb = (r << 16) | (g << 8) | (b << 0);
+        return (0x1000000 + rgb).toString(16).slice(1);
+    }
+
     function GatewayLedNode(n) {
         RED.nodes.createNode(this, n);
 
@@ -23,8 +28,8 @@ module.exports = function(RED) {
         var node = this;
 
         node.config.events.on('update', (config) => {
-            var status = {fill:"green", shape:"dot", text:""};
-            var payload = {};
+            var status = {fill: null, shape:"dot", text: null};
+            var payload = {power: null, color: null};
     
             if (config.power) {
                 status.fill = "green";
@@ -32,6 +37,14 @@ module.exports = function(RED) {
             } else {
                 status.fill = "red";
                 payload.power = "off";
+            }
+
+            if (node.input == "hex") {
+                payload.color = rgb2hex(config.red, config.green, config.blue);
+            }
+
+            if (node.input == "rgb") {
+                payload.color = {r: config.red, g: config.green, b: config.blue};
             }
     
             status.text = "{r:" + config.red.toString() + ", g:" + config.green.toString() + ", b:" + config.blue.toString() + "}";
