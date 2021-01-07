@@ -1,0 +1,41 @@
+<script type="text/javascript">
+    RED.nodes.registerType('gateway-led', {
+        category: 'gateway',
+        color: '#a6bbcf',
+        defaults: {
+            name: {value:""},
+            config: {value:"", type:"gateway-led-config"},
+            input: {value: "hex"},
+        },
+        inputs:1,
+        outputs:1,
+        paletteLabel: "led",
+        icon: "led.svg",
+        label: function() {
+            return this.name || "gateway-led";
+        }
+    });
+</script>
+
+<script type="text/html" data-template-name="gateway-led">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-config"><i class="fa fa-cog"></i> Config</label>
+        <input type="text" id="node-input-config">
+    </div>
+    <div class="form-row">
+        <label for="node-input-input"><i class="fa fa-sign-in"></i> Input</label>
+        <select id="node-input-input">
+          <option value="state">State [on|off|toggle]</option>
+          <option value="hex">Color [HEX string]</option>
+          <option value="rgb">Color [RGB object]</option>
+        </select>
+    </div>
+</script>
+
+<script type="text/html" data-help-name="gateway-led">
+    <p>Node for gateway lighting control.</p>
+</script>

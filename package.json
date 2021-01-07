@@ -1,0 +1,30 @@
+{
+    "name": "node-red-contrib-xiaomi-gateway",
+    "version": "1.0.0",
+    "description": "Node-red blocks for Xiaomi gateway",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/max255/node-red-contrib-xiaomi-gateway.git"
+    },
+    "keywords": [
+        "xiaomi",
+        "gateway",
+        "node-red"
+    ],
+    "author": "max255",
+    "license": "Apache-2.0",
+    "bugs": {
+        "url": "https://github.com/max255/node-red-contrib-xiaomi-gateway/issues"
+    },
+    "node-red" : {
+        "nodes": {
+            "gateway-switch": "nodes/button.js",
+            "gateway-led": "nodes/led.js",
+            "gateway-led-config": "nodes/led-config.js",
+            "gateway-illuminance": "nodes/illuminance.js"
+        }
+    }
+}

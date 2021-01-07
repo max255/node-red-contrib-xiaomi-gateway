@@ -1,0 +1,33 @@
+<script type="text/javascript">
+    RED.nodes.registerType('gateway-led-config',{
+        category: 'config',
+        defaults: {
+            name: {value:"",required:true},
+            redFile: {value:"/sys/class/backlight/lumi_r/brightness",required:true},
+            greenFile: {value:"/sys/class/backlight/lumi_g/brightness",required:true},
+            blueFile: {value:"/sys/class/backlight/lumi_b/brightness",required:true}
+        },
+        label: function() {
+            return this.name;
+        }
+    });
+</script>
+
+<script type="text/html" data-template-name="gateway-led-config">
+    <div class="form-row">
+        <label for="node-config-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-config-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-redFile"><i class="fa fa-file"></i> Red</label>
+        <input type="text" id="node-config-input-redFile">
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-greenFile"><i class="fa fa-file"></i> Green</label>
+        <input type="text" id="node-config-input-greenFile">
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-blueFile"><i class="fa fa-file"></i> Blue</label>
+        <input type="text" id="node-config-input-blueFile">
+    </div>
+</script>

@@ -1,0 +1,42 @@
+<script type="text/javascript">
+    RED.nodes.registerType('gateway-button', {
+        category: 'gateway',
+        color: '#a6bbcf',
+        defaults: {
+            name: {value: ""},
+            event: {value: "/dev/input/event0"},
+            tclick: {value: 280, validate:RED.validators.number()},
+            thold: {value: 1000, validate:RED.validators.number()}
+        },
+        inputs:0,
+        outputs:1,
+        paletteLabel: "button",
+        icon: "button.svg",
+        label: function() {
+            return this.name || "gateway-button";
+        }
+    });
+</script>
+
+<script type="text/html" data-template-name="gateway-button">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-event"><i class="fa fa-file"></i> Event</label>
+        <input type="text" id="node-input-event">
+    </div>
+    <div class="form-row">
+        <label for="node-input-tclick"><i class="fa fa-clock-o"></i> tClick</label>
+        <input type="text" id="node-input-tclick">
+    </div>
+    <div class="form-row">
+        <label for="node-input-thold"><i class="fa fa-clock-o"></i> tHold</label>
+        <input type="text" id="node-input-thold">
+    </div>
+</script>
+
+<script type="text/html" data-help-name="gateway-button">
+    <p>Node for receiving events from the gateway button.</p>
+</script>

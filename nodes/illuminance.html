@@ -1,0 +1,57 @@
+<script type="text/javascript">
+    RED.nodes.registerType('gateway-illuminance', {
+        category: 'gateway',
+        color: '#a6bbcf',
+        defaults: {
+            name: {value: ""},
+            sensor: {value: "/sys/bus/iio/devices/iio:device0/in_voltage5_raw",required:true},
+            tupdate: {value: 5000, validate:RED.validators.number(),required:true},
+            night: {value: 30, validate:RED.validators.number(),required:true},
+            hysteresis: {value: 5, validate:RED.validators.number(),required:true},
+            mode: {value: "lux"},
+        },
+        inputs:1,
+        outputs:1,
+        paletteLabel: "illuminance",
+        icon: "illuminance.svg",
+        label: function() {
+            return this.name || "gateway-illuminance";
+        }
+    });
+</script>
+
+<script type="text/html" data-template-name="gateway-illuminance">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-sensor"><i class="fa fa-file"></i> Sensor</label>
+        <input type="text" id="node-input-sensor">
+    </div>
+    <div class="form-row">
+        <label for="node-input-tupdate"><i class="fa fa-clock-o"></i> tUpdate</label>
+        <input type="text" id="node-input-tupdate">
+    </div>
+    <div class="form-row">
+        <label for="node-input-night"><i class="fa fa-adjust"></i> Night</label>
+        <input type="text" id="node-input-night">
+    </div>
+    <div class="form-row">
+        <label for="node-input-hysteresis"><i class="fa fa-arrows-v"></i> Hysteresis</label>
+        <input type="text" id="node-input-hysteresis">
+    </div>
+    <div class="form-row">
+        <label for="node-input-mode"><i class="fa fa-sign-out"></i> Mode</label>
+        <select id="node-input-mode">
+          <option value="raw">RAW data</option>
+          <option value="lux">Lux illuminance</option>
+          <option value="daynight">Day / night event</option>
+          <option value="full">Object, full data</option>
+        </select>
+    </div>
+</script>
+
+<script type="text/html" data-help-name="gateway-button">
+    <p>Node for receiving data from the light sensor of the gateway.</p>
+</script>
