@@ -9,27 +9,27 @@ The package is only for use on xiaomi gateways running OpenWRT
 
 Receiving events from an embedded button. Returns an object:
 <pre>
-{"state": "click", "multiclick": 1}					  // one click
-{"state": "multiclick", "multiclick": 3}  		   // three clicks
-{"state": "hold", "multiclick": 1} 					// hold
+{"state": "click", "multiclick": 1}         // one click
+{"state": "multiclick", "multiclick": 3}    // three clicks
+{"state": "hold", "multiclick": 1}          // hold
 </pre>
 
 ### gateway-led
 Controls the built-in backlight. Accepts data in the payload field, the data type is configured in the node.
 <pre>
-payload = "on";						// state
+payload = "on";                     // state
 payload = "off";
 payload = "toggle";
-payload = "ff00ff";					// hex color
-payload = {r: 0, g: 0, b: 100};	// object color
+payload = "ff00ff";                 // hex color
+payload = {r: 0, g: 0, b: 100};     // object color
 </pre>
 
 ### gateway-illuminance
 Receives data from the built-in light sensor. Returns data depending on the settings of the node:
 <pre>
-payload = 3059;						// raw data from sensor
-payload = 36;						    // converted value, in lux 
-payload = "day";					   // day or night event
+payload = 3059;                                 // raw data from sensor
+payload = 36;                                   // converted value, in lux 
+payload = "day";                                // day or night event
 payload = "night";
-payload = {raw: 3059, lux: 36, state: "day"}; // full data
+payload = {raw: 3059, lux: 36, state: "day"};   // full data
 </pre>
