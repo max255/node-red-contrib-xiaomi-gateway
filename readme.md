@@ -9,9 +9,9 @@ The package is only for use on xiaomi gateways running OpenWRT
 
 Receiving events from an embedded button. Returns an object:
 <pre>
-{"state": "click", "multiclick": 1}         // one click
-{"state": "multiclick", "multiclick": 3}    // three clicks
-{"state": "hold", "multiclick": 1}          // hold
+{"action": "click", "multiclick": 1}         // one click
+{"action": "multiclick", "multiclick": 3}    // three clicks
+{"action": "hold", "multiclick": 1}          // hold
 </pre>
 
 ### gateway-led
