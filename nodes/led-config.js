@@ -8,7 +8,12 @@ module.exports = function(RED) {
     }
 
     function writeColor(file, value) {
-        const data = mapRange(value, 0, 255, 0, 100).toString();
+        const data = value.toString();
+        fs.writeFile(file, data, { flag: 'a+' }, err => {});
+    }
+
+    function writeColorRange(file, value, range) {
+        const data = mapRange(value, 0, 255, 0, range).toString();
         fs.writeFile(file, data, { flag: 'a+' }, err => {});
     }
 
@@ -19,6 +24,7 @@ module.exports = function(RED) {
         this.redFile = n.redFile;
         this.greenFile = n.greenFile;
         this.blueFile = n.blueFile;
+        this.range = n.range;
         this.power = false;
         this.red = 0;
         this.green = 0;
@@ -29,9 +35,15 @@ module.exports = function(RED) {
 
         this.update = function() {
             if (node.power) {
-                writeColor(node.redFile, node.red);
-                writeColor(node.greenFile, node.green);
-                writeColor(node.blueFile, node.blue);
+                if (node.range = "r0100") {
+                    writeColorRange(node.redFile, node.red, 100);
+                    writeColorRange(node.greenFile, node.green, 100);
+                    writeColorRange(node.blueFile, node.blue, 100);
+                } else {
+                    writeColor(node.redFile, node.red);
+                    writeColor(node.greenFile, node.green);
+                    writeColor(node.blueFile, node.blue);
+                }
             } else {
                 writeColor(node.redFile, 0);
                 writeColor(node.greenFile, 0);
