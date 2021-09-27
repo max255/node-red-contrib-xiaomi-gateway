@@ -15,14 +15,14 @@
             name: {value: ""},
             config: {value: "", type: "gateway-led-config"},
             pattern: {value: "00000001"},
-            ttick: {value: 800, validate:RED.validators.number()},
+            ttick: {value: 100, validate:RED.validators.number()},
             time: {value: 10, validate:RED.validators.number()},
             colors: {value: ["#FF0000","#00FF00","#0000FF"]}
         },
         inputs: 1,
         outputs: 0,
-        paletteLabel: "led",
-        icon: "led.svg",
+        paletteLabel: "notify",
+        icon: "notify.svg",
         label: function() {
             return this.name || "gateway-led-notify";
         },
@@ -84,6 +84,6 @@
     </div>
 </script>
 
-<script type="text/html" data-help-name="gateway-led">
+<script type="text/html" data-help-name="gateway-led-notify">
     <p>Notification node via gateway lighting.</p>
 </script>
