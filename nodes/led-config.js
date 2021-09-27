@@ -2,74 +2,80 @@ module.exports = function(RED) {
     "use strict";
     const fs = require("fs");
     const Emitter = require("events");
-    
-    function mapRange(value, low1, high1, low2, high2) {
-        return Math.trunc(low2 + (high2 - low2) * (value - low1) / (high1 - low1));
-    }
-
-    function writeColor(file, value) {
-        const data = value.toString();
-        fs.writeFile(file, data, { flag: 'a+' }, err => {});
-    }
-
-    function writeColorRange(file, value, range) {
-        const data = mapRange(value, 0, 255, 0, range).toString();
-        fs.writeFile(file, data, { flag: 'a+' }, err => {});
-    }
+    const helper = require("../lib/helper.js");
 
     function GatewayLedConfigNode(n) {
         RED.nodes.createNode(this, n);
-
-        this.name = n.name;
-        this.redFile = n.redFile;
-        this.greenFile = n.greenFile;
-        this.blueFile = n.blueFile;
-        this.range = n.range;
-        this.power = false;
-        this.red = 0;
-        this.green = 0;
-        this.blue = 0;
-        this.events = new Emitter();
-
         var node = this;
 
-        this.update = function() {
-            if (node.power) {
-                if (node.range = "r0100") {
-                    writeColorRange(node.redFile, node.red, 100);
-                    writeColorRange(node.greenFile, node.green, 100);
-                    writeColorRange(node.blueFile, node.blue, 100);
-                } else {
-                    writeColor(node.redFile, node.red);
-                    writeColor(node.greenFile, node.green);
-                    writeColor(node.blueFile, node.blue);
-                }
+        node.name = n.name;
+        node.redFile = n.redFile;
+        node.greenFile = n.greenFile;
+        node.blueFile = n.blueFile;
+        node.range = n.range;
+        node.power = false;
+        node.red = 0;
+        node.green = 0;
+        node.blue = 0;
+        node.events = new Emitter();
+        node.notify = false;
+
+        node.update = function() {
+            if (node.power == true && node.notify == false) {
+                node.writeColor(node.red, node.green, node.blue);
             } else {
-                writeColor(node.redFile, 0);
-                writeColor(node.greenFile, 0);
-                writeColor(node.blueFile, 0);
+                node.writeColor(0, 0, 0);
             }
 
             node.events.emit('update', node);
-        }
+        };
 
-        this.setPower = function(value) {
+        node.setPower = function(value) {
             node.power = value;
             node.update();
-        }
+        };
 
-        this.setColor = function(r, g, b) {
+        node.setColor = function(r, g, b) {
             node.red = r;
             node.green = g;
             node.blue = b;
             node.update();
-        }
+        };
 
-        this.toggle = function() {
+        node.toggle = function() {
             node.power = !node.power;
             node.update();
-        }
+        };
+
+        node.writeColor = function(r, g, b) {
+            if (node.range = "r0100") {
+                r = helper.map(r, 0, 255, 0, 100);
+                g = helper.map(g, 0, 255, 0, 100);
+                b = helper.map(b, 0, 255, 0, 100);
+            }
+
+            fs.writeFile(node.redFile, r.toString(), { flag: 'a+' }, err => {});
+            fs.writeFile(node.greenFile, g.toString(), { flag: 'a+' }, err => {});
+            fs.writeFile(node.blueFile, b.toString(), { flag: 'a+' }, err => {});
+        };
+
+        node.beginNotify = function() {
+            node.events.emit('beginNotify', node);
+            node.notify = true;
+            node.writeColor(0, 0, 0);
+        };
+
+        node.endNotify = function() {
+            node.events.emit('endNotify', node);
+            node.notify = false;
+
+            if (node.power) {
+                node.writeColor(node.red, node.green, node.blue);
+            } else {
+                node.writeColor(0, 0, 0);
+            }
+        };
     }
 
-    RED.nodes.registerType("gateway-led-config",GatewayLedConfigNode);
+    RED.nodes.registerType("gateway-led-config", GatewayLedConfigNode);
 }

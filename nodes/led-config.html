@@ -3,10 +3,10 @@
         category: 'config',
         defaults: {
             name: {value: "", required:true},
-            redFile: {value: "/sys/class/backlight/lumi_r/brightness", required:true},
-            greenFile: {value: "/sys/class/backlight/lumi_g/brightness", required:true},
-            blueFile: {value: "/sys/class/backlight/lumi_b/brightness", required:true},
-            range: {value: "r0100"}
+            redFile: {value: "/sys/class/leds/red/brightness", required:true},
+            greenFile: {value: "/sys/class/leds/green/brightness", required:true},
+            blueFile: {value: "/sys/class/leds/blue/brightness", required:true},
+            range: {value: "r0255"}
         },
         label: function() {
             return this.name;
@@ -33,7 +33,7 @@
     </div>
     <div class="form-row">
         <label for="node-config-input-range"><i class="fa fa-arrows-h"></i> Range</label>
-        <select id="node-config-input-range">
+        <select id="node-config-input-range" style="display: inline-block; vertical-align: middle; width:70%;">
           <option value="r0100">Output range [0...100]</option>
           <option value="r0255">Output range [0...255]</option>
         </select>

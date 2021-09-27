@@ -1,0 +1,89 @@
+<style>
+    input.notify-color {
+        width: 100px;
+        text-align: center;
+    }
+    input.notify-color::-webkit-color-swatch {
+        border: none;
+    }
+</style>
+<script type="text/javascript">
+    RED.nodes.registerType('gateway-led-notify', {
+        category: 'gateway',
+        color: '#a6bbcf',
+        defaults: {
+            name: {value: ""},
+            config: {value: "", type: "gateway-led-config"},
+            pattern: {value: "00000001"},
+            ttick: {value: 800, validate:RED.validators.number()},
+            time: {value: 10, validate:RED.validators.number()},
+            colors: {value: ["#FF0000","#00FF00","#0000FF"]}
+        },
+        inputs: 1,
+        outputs: 0,
+        paletteLabel: "led",
+        icon: "led.svg",
+        label: function() {
+            return this.name || "gateway-led-notify";
+        },
+        oneditprepare: function() {
+            var setColour = function(id, value) {
+                $(id).val(value);
+                $(id).css("background-color", value);
+            }
+
+            $(".notify-color").on("change", function() {
+                setColour("#"+$(this).attr("id"), $(this).val());
+            });
+
+            var defaultColors = ['#FF0000', '#00FF00', '#0000FF'];
+
+            if (this.colors) {
+                for (var i=0; i<this.colors.length; i++) {
+                    var value = this.colors[i] || defaultColors[i];
+                    setColour("#node-input-color"+(i+1), value);
+                }
+            } else {
+                for (var j=0; j<defaultColors.length; j++) {
+                    setColour("#node-input-color"+(j+1), defaultColors[j]);
+                }
+            }
+        },
+        oneditsave: function() {
+            this.colors = [$("#node-input-color1").val(),$("#node-input-color2").val(),$("#node-input-color3").val()];
+        }
+    });
+</script>
+
+<script type="text/html" data-template-name="gateway-led-notify">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-config"><i class="fa fa-cog"></i> Config</label>
+        <input type="text" id="node-input-config">
+    </div>
+    <div class="form-row">
+        <label for="node-input-pattern"><i class="fa fa-bolt"></i> Pattern</label>
+        <input type="text" id="node-input-pattern" placeholder="Pattern">
+    </div>
+    <div class="form-row">
+        <label for="node-input-ttick"><i class="fa fa-clock-o"></i> tTick (ms)</label>
+        <input type="text" id="node-input-ttick" placeholder="tTick">
+    </div>
+    <div class="form-row">
+        <label for="node-input-time"><i class="fa fa-clock-o"></i> Time (s)</label>
+        <input type="text" id="node-input-time" placeholder="Time">
+    </div>
+    <div class="form-row" id="gateway-led-colours">
+        <label for="node-input-color1">Color patterns</label>
+        <input type="color" id="node-input-color1" class="notify-color" style="width:100px;"/>
+        <input type="color" id="node-input-color2" class="notify-color" style="width:100px;"/>
+        <input type="color" id="node-input-color3" class="notify-color" style="width:100px;"/>
+    </div>
+</script>
+
+<script type="text/html" data-help-name="gateway-led">
+    <p>Notification node via gateway lighting.</p>
+</script>
